@@ -1,0 +1,18 @@
+services:
+  script:
+    build:
+      context: .
+      dockerfile: Dockerfile.compose-example
+    depends_on:
+      - redis
+    networks:
+      - default
+
+  redis:
+    image: redis:alpine
+    networks:
+      - default
+
+networks:
+  default:
+    driver: bridge
