@@ -22,23 +22,23 @@ class IssuePhysicalCardRequestDict(TypedDict):
 
 class CardsGatewayHTTPClient(HTTPClient):
     """
-    Клиент для взаимодействия с /api/v1/users сервиса http-gateway.
+    Клиент для взаимодействия с /api/v1/cards сервиса http-gateway.
     """
 
     def issue_virtual_card_api(self, request: IssueVirtualCardRequestDict) -> Response:
         """
         Выпустить виртуальную карту.
 
-        :param request: Словарь с данными нового пользователя.
+        :param request: Словарь с данными нового пользователя и номером счета.
         :return: Ответ от сервера (объект httpx.Response).
         """
-        return self.post("/api/v1/cards/issue-virtual-card")
+        return self.post("/api/v1/cards/issue-virtual-card", json=request)
 
     def issue_physical_card_api(self, request: IssueVirtualCardRequestDict) -> Response:
         """
         Выпустить виртуальную карту.
 
-        :param request: Словарь с данными нового пользователя.
+        :param request: Словарь с данными нового пользователя и номером счета.
         :return: Ответ от сервера (объект httpx.Response).
         """
-        return self.post("/api/v1/cards", json=request)
+        return self.post("/api/v1/cards/issue-physical-card", json=request)
