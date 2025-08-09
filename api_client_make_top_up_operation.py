@@ -22,8 +22,6 @@ print('Account ID:', account_id)
 
 # Создание операции пополнения
 make_top_up_operation_request = MakeTopUpOperationRequestSchema(
-    status='COMPLETED',
-    amount=100.0,
     card_id=card_id,
     account_id=account_id
 )
