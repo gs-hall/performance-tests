@@ -5,52 +5,11 @@ from httpx import Response
 
 from clients.http.client import HTTPClient
 from clients.http.gateway.client import build_gateway_http_client  # Импортируем builder
-
-# Добавили описание структуры пользователя
-class UserDict(TypedDict):
-    """
-    Описание структуры пользователя.
-    """
-    id: str
-    email: str
-    lastName: str
-    firstName: str
-    middleName: str
-    phoneNumber: str
-
-# Добавили описание структуры ответа получения пользователя
-class GetUserResponseDict(TypedDict):
-    """
-    Описание структуры ответа получения пользователя.
-    """
-    user: UserDict
-
-
-class CreateUserRequestDict(TypedDict):
-    """
-    Структура данных для создания нового пользователя.
-    """
-    email: str
-    lastName: str
-    firstName: str
-    middleName: str
-    phoneNumber: str
-
-class CreateUserRequestDict(TypedDict):
-    """
-    Структура данных для создания нового пользователя.
-    """
-    email: str
-    lastName: str
-    firstName: str
-    middleName: str
-    phoneNumber: str
-
-class CreateUserResponseDict(TypedDict):
-    """
-    Описание структуры ответа создания пользователя.
-    """
-    user: UserDict
+from clients.http.gateway.users.schema import (  # Добавили импорт моделей
+    GetUserResponseSchema,
+    CreateUserRequestSchema,
+    CreateUserResponseSchema
+)
 
 
 class UsersGatewayHTTPClient(HTTPClient):
@@ -67,23 +26,23 @@ class UsersGatewayHTTPClient(HTTPClient):
         """
         return self.get(f"/api/v1/users/{user_id}")
 
-    def create_user_api(self, request: CreateUserRequestDict) -> Response:
+    def create_user_api(self, request: CreateUserRequestSchema) -> Response:
         """
         Создание нового пользователя.
 
         :param request: Словарь с данными нового пользователя.
         :return: Ответ от сервера (объект httpx.Response).
         """
-        return self.post("/api/v1/users", json=request)
+        return self.post("/api/v1/users", json=request.model_dump(by_alias=True))
 
         # Добавили новый метод
-    def get_user(self, user_id: str) -> GetUserResponseDict:
+    def get_user(self, user_id: str) -> GetUserResponseSchema:
         response = self.get_user_api(user_id)
-        return response.json()
+        return GetUserResponseSchema.model_validate_json(response.text)
 
     # Добавили новый метод
-    def create_user(self) -> CreateUserResponseDict:
-        request = CreateUserRequestDict(
+    def create_user(self) -> CreateUserResponseSchema:
+        request = CreateUserRequestSchema(
             email=f"user.{time.time()}@example.com",
             lastName="string",
             firstName="string",
@@ -91,7 +50,7 @@ class UsersGatewayHTTPClient(HTTPClient):
             phoneNumber="string"
         )
         response = self.create_user_api(request)
-        return response.json()
+        return CreateUserResponseSchema.model_validate_json(response.text)
 
 # Добавляем builder для UsersGatewayHTTPClient
 def build_users_gateway_http_client() -> UsersGatewayHTTPClient:
