@@ -1,32 +1,42 @@
-from locust import HttpUser, between, task
+from locust import User, between, task
 from tools.fakers import fake  # генератор случайных данных
+from clients.http.gateway.users.client import UsersGatewayHTTPClient, build_users_gateway_locust_http_client
+from clients.http.gateway.users.schema import CreateUserResponseSchema
+from clients.http.gateway.accounts.client import AccountsGatewayHTTPClient, build_accounts_gateway_locust_http_client
+from clients.http.gateway.accounts.schema import OpenDebitCardAccountResponseSchema
 
-class OpenDebitCardAccountScenarioUser(HttpUser):
+class OpenDebitCardAccountScenarioUser(User):
     # Пауза между запросами для каждого виртуального пользователя (в секундах)
     wait_time = between(1, 3)
 
-    # В этой переменной будем хранить данные созданного пользователя
-    user_data: dict
+    host = "localhost"  # фиктивный host для запросов
 
-    # В этой переменной будем хранить данные созданного счета
-    account_data: dict
+    # В этой переменной будем хранить экземпляр нашего API клиента для работы с пользователями
+    user_gateway_client: UsersGatewayHTTPClient
+
+    # В этой переменной будем хранить экземпляр нашего API клиента для работы со счетами
+    accounts_gateway_client: AccountsGatewayHTTPClient
+
+    # Поле, куда мы сохраним ответ после создания пользователя
+    create_user_response: CreateUserResponseSchema
+
+    # Поле, куда мы сохраним данные счета после открытия дебетовой карты
+    account_data: OpenDebitCardAccountResponseSchema
 
     def on_start(self) -> None:
         """
         Метод on_start вызывается один раз при запуске каждой сессии виртуального пользователя.
         Здесь мы создаем нового пользователя, отправляя POST-запрос к /api/v1/users.
         """
-        request = {
-            "email": fake.email(),
-            "lastName": fake.last_name(),
-            "firstName": fake.first_name(),
-            "middleName": fake.middle_name(),
-            "phoneNumber": fake.phone_number()
-        }
-        response = self.client.post("/api/v1/users", json=request)
+        # создаем API клиент, встроенный в экосистему Locust (с хуками и поддержкой сбора метрик)
+        self.users_gateway_client = build_users_gateway_locust_http_client(self.environment)
 
-        # Сохраняем полученные данные, включая ID пользователя
-        self.user_data = response.json()
+        # создаем пользователя через API
+        self.create_user_response = self.users_gateway_client.create_user()
+
+        # создаем API клиент для работы со счетами
+        # используем тот же environment, чтобы Locust мог собирать метрики
+        self.accounts_gateway_client = build_accounts_gateway_locust_http_client(self.environment)
 
     @task
     def open_debit_card_account(self):
@@ -34,10 +44,4 @@ class OpenDebitCardAccountScenarioUser(HttpUser):
         Основная нагрузочная задача: открытие дебетовой карты.
         Здесь мы выполняем POST-запрос к /api/v1/accounts/open-debit-card-account.
         """
-        request = {
-            "userId": self.user_data['user']['id'],
-        }
-        response = self.client.post("/api/v1/accounts/open-debit-card-account", json=request)
-
-        # Сохраняем данные открытого счета
-        self.account_data = response.json()
+        self.account_data = self.accounts_gateway_client.open_debit_card_account(self.create_user_response.user_id)
