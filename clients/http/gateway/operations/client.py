@@ -1,7 +1,7 @@
-from httpx import Response
-
-from clients.http.client import HTTPClient
-from clients.http.gateway.client import build_gateway_http_client
+from httpx import Response, QueryParams
+from locust.env import Environment  # Импорт окружения Locust
+from clients.http.client import HTTPClient, HTTPClientExtensions
+from clients.http.gateway.client import build_gateway_http_client, build_gateway_locust_http_client
 from clients.http.gateway.operations.schema import (
     GetOperationsQuerySchema,
     GetOperationsResponseSchema,
@@ -22,6 +22,7 @@ from clients.http.gateway.operations.schema import (
     MakeBillPaymentOperationResponseSchema,
     MakeCashWithdrawalOperationRequestSchema,
     MakeCashWithdrawalOperationResponseSchema,
+    GetOperationsSummaryQuerySchema,
 )
 
 
@@ -37,16 +38,24 @@ class OperationsGatewayHTTPClient(HTTPClient):
         :param accountId: Идентификатор счета.
         :return: Ответ от сервера (объект httpx.Response).
         """
-        return self.get("/api/v1/operations", params=GetOperationsQuerySchema(account_id=account_id))
+        return self.get(
+            "/api/v1/operations",
+            params=GetOperationsQuerySchema(account_id=account_id),
+            extensions=HTTPClientExtensions(route="/api/v1/operations")
+            )
 
-    def get_operations_summary_api(self, account_id: str) -> Response:
+    def get_operations_summary_api(self, query: GetOperationsSummaryQuerySchema) -> Response:
         """
         Получить статистику по операциям для определенного счета.
 
         :param accountId: Идентификатор счета.
         :return: Ответ от сервера (объект httpx.Response).
         """
-        return self.get(f"/api/v1/operations/operations-summary", params=GetOperationsQuerySchema(account_id=account_id))
+        return self.get(
+            f"/api/v1/operations/operations-summary",
+            params=QueryParams(**query.model_dump(by_alias=True)),
+            extensions=HTTPClientExtensions(route="/api/v1/operations/operations-summary")
+            )
 
     def get_operation_receipt_api(self, operation_id: str) -> Response:
         """
@@ -55,7 +64,10 @@ class OperationsGatewayHTTPClient(HTTPClient):
         :param operation_id: Идентификатор операции.
         :return: Ответ от сервера (объект httpx.Response).
         """
-        return self.get(f"/api/v1/operations/operation-receipt/{operation_id}")
+        return self.get(
+            f"/api/v1/operations/operation-receipt/{operation_id}",
+            extensions=HTTPClientExtensions(route="/api/v1/operations/operation-receipt/{operation_id}")
+            )
 
     def get_operation_api(self, operation_id: str) -> Response:
         """
@@ -64,7 +76,10 @@ class OperationsGatewayHTTPClient(HTTPClient):
         :param operation_id: Идентификатор операции.
         :return: Ответ от сервера (объект httpx.Response).
         """
-        return self.get(f"/api/v1/operations/{operation_id}")
+        return self.get(
+            f"/api/v1/operations/{operation_id}",
+            extensions=HTTPClientExtensions(route="/api/v1/operations/{operation_id}")
+            )
 
     def make_fee_operation_api(self, request: MakeFeeOperationRequestSchema) -> Response:
         """
@@ -248,3 +263,19 @@ def build_operations_gateway_http_client() -> OperationsGatewayHTTPClient:
     :return: Экземпляр OperationsGatewayHTTPClient.
     """
     return OperationsGatewayHTTPClient(client=build_gateway_http_client())
+
+# Новый билдер для нагрузочного тестирования
+def build_operations_gateway_locust_http_client(environment: Environment) -> OperationsGatewayHTTPClient:
+    """
+    Функция создаёт экземпляр OperationsGatewayHTTPClient, адаптированного под Locust.
+
+    Клиент автоматически собирает метрики и передаёт их в Locust через хуки.
+    Используется исключительно в нагрузочных тестах.
+
+    :param environment: объект окружения Locust.
+    :return: экземпляр OperationsGatewayHTTPClient с хуками сбора метрик.
+    """
+    # Возвращаем клиент с хуками для сбора метрик
+    return OperationsGatewayHTTPClient(
+        client=build_gateway_locust_http_client(environment)
+    )

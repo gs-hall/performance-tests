@@ -255,3 +255,11 @@ class MakeCashWithdrawalOperationResponseSchema(BaseModel):
     """
     model_config = ConfigDict(validate_by_name=True, validate_by_alias=True)
     operation: OperationSchema
+
+class GetOperationsSummaryQuerySchema(BaseModel):
+    """
+    Структура данных для получения сводки по операциям.
+    """
+    model_config = ConfigDict(validate_by_name=True, validate_by_alias=True)
+
+    account_id: UUID4 = Field(alias="accountId")
