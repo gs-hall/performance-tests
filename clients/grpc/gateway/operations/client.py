@@ -173,21 +173,7 @@ class OperationsGatewayGRPCClient(GRPCClient):
         """
         return self.stub.MakePurchaseOperation(request)
 
-    def make_top_up_operation(self, user_id: str, account_id: str) -> MakeTopUpOperationResponse:
-        """
-        Выполнение операции пополнения счёта для указанного пользователя и счёта.
 
-        :param user_id: Идентификатор пользователя, для которого выполняется операция.
-        :param account_id: Идентификатор счёта, на который выполняется пополнение.
-        :return: Ответ с информацией о выполненной операции пополнения.
-        """
-        request = MakeTopUpOperationRequest(
-            user_id=user_id,
-            account_id=account_id,
-            amount=fake.amount(),  # Генерация случайной суммы
-            status=fake.proto_enum(OperationStatus)  # Статус операции
-        )
-        return self.make_top_up_operation_api(request)
 
     def get_operation_receipt(self, operation_id: str) -> GetOperationReceiptResponse:
         """
@@ -218,6 +204,22 @@ class OperationsGatewayGRPCClient(GRPCClient):
         """
         request = GetOperationsSummaryRequest(account_id=account_id)
         return self.get_operations_summary_api(request)
+
+    def make_top_up_operation(self, card_id: str, account_id: str) -> MakeTopUpOperationResponse:
+        """
+        Выполнение операции пополнения счёта для указанного card_id и account_id.
+
+        :param card_id: Идентификатор карты, с которой выполняется перевод.
+        :param account_id: Идентификатор счёта, на который выполняется пополнение.
+        :return: Ответ с информацией о выполненной операции пополнения.
+        """
+        request = MakeTopUpOperationRequest(
+            card_id=card_id,
+            account_id=account_id,
+            amount=fake.amount(),  # Генерация случайной суммы
+            status=fake.proto_enum(OperationStatus)  # Статус операции
+        )
+        return self.make_top_up_operation_api(request)
 
     def make_transfer_operation(self, card_id: str, account_id: str) -> MakeTransferOperationResponse:
         """
