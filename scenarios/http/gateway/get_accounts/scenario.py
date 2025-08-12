@@ -3,7 +3,7 @@ from locust import User, between, task
 # Импортируем схемы ответов, чтобы типизировать shared state
 from clients.http.gateway.locust import GatewayHTTPTaskSet
 from clients.http.gateway.users.schema import CreateUserResponseSchema
-
+from tools.locust.user import LocustBaseUser  # Импортируем базовый класс
 
 class GetAccountsTaskSet(GatewayHTTPTaskSet):
     """
@@ -51,10 +51,8 @@ class GetAccountsTaskSet(GatewayHTTPTaskSet):
         )
 
 
-class GetDocumentsScenarioUser(User):
+class GetDocumentsScenarioUser(LocustBaseUser):
     """
     Пользователь Locust, исполняющий последовательный сценарий получения документов.
     """
-    host = "localhost"
     tasks = [GetAccountsTaskSet]
-    wait_time = between(1, 3)  # Имитируем паузы между выполнением сценариев
