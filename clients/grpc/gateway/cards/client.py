@@ -4,7 +4,6 @@ from clients.grpc.client import GRPCClient
 from clients.grpc.gateway.client import build_gateway_grpc_client, build_gateway_locust_grpc_client
 from contracts.services.gateway.cards.cards_gateway_service_pb2_grpc import CardsGatewayServiceStub
 from contracts.services.gateway.cards.rpc_issue_physical_card_pb2 import IssuePhysicalCardRequest, IssuePhysicalCardResponse
-from contracts.services.gateway.cards.rpc_issue_physical_card_pb2_grpc import CardsGatewayServiceStub
 from tools.fakers import fake
 
 class CardsGatewayGRPCClient(GRPCClient):
