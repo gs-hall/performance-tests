@@ -41,8 +41,8 @@ class CardsGatewayGRPCClient(GRPCClient):
         request = IssuePhysicalCardRequest(
             user_id=user_id,
             account_id=account_id,
-            cardholder_name=fake.name(),
-            card_type=fake.card_type()
+            #cardholder_name=fake.first_name(),
+            #card_type=fake.card_type()
         )
         return self.issue_physical_card_api(request)
 
@@ -66,8 +66,8 @@ class CardsGatewayGRPCClient(GRPCClient):
         request = IssuePhysicalCardRequest(
             user_id=user_id,
             account_id=account_id,
-            cardholder_name=fake.name(),
-            card_type=fake.card_type()
+            #cardholder_name=fake.name(),
+            #card_type=fake.card_type()
         )
         return self.issue_virtual_card_api(request)
 
