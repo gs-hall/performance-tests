@@ -303,7 +303,10 @@ class SeedsBuilder:
         Returns:
             SeedsResult: Результат с данными всех созданных пользователей
         """
-        return SeedsResult(users=[self.build_user(plan=plan.users) for _ in range(plan.users.count)])
+        # Unpack the tuple if needed, or use the correct object
+        seeds_plan = plan[0] if isinstance(plan, tuple) else plan
+        print(f"Building seeds with plan: {seeds_plan}, users: {seeds_plan.users}, total users: {seeds_plan.users.count}")
+        return SeedsResult(users=[self.build_user(plan=seeds_plan.users) for _ in range(seeds_plan.users.count)])
 
 
 def build_grpc_seeds_builder() -> SeedsBuilder:
