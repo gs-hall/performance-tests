@@ -195,6 +195,16 @@ class OperationsGatewayGRPCClient(GRPCClient):
         request = GetOperationsRequest(account_id=account_id)
         return self.get_operations_api(request)
 
+    def get_operation(self, operation_id: str) -> GetOperationResponse:
+        """
+        Получение информации об операции по её operation_id.
+
+        :param operation_id: Идентификатор операции, для которой требуется получить информацию.
+        :return: Ответ с информацией об операции.
+        """
+        request = GetOperationRequest(id=operation_id)
+        return self.get_operation_api(request)
+
     def get_operations_summary(self, account_id: str) -> GetOperationsSummaryResponse:
         """
         Получение сводки по операциям для указанного account_id.
