@@ -78,19 +78,19 @@ class GetOperationResponseSchema(BaseModel):
 #   }
 # }
 
-class OperationSummarySchema(BaseModel):
+class OperationsSummarySchema(BaseModel):
     """
     Описание структуры сводки по операциям.
     """
-    spentAmount: float
-    receivedAmount: float
-    cashbackAmount: float
+    spent_amount: float = Field(alias="spentAmount")
+    received_amount: float = Field(alias="receivedAmount")
+    cashback_amount: float = Field(alias="cashbackAmount")
 
 class GetOperationsSummaryResponseSchema(BaseModel):
     """
     Описание структуры ответа получения сводки по операциям.
     """
-    summary: OperationSummarySchema
+    summary: OperationsSummarySchema
 
 # Example structure for operation receipt:
 # {

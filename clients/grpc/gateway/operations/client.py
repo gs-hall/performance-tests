@@ -119,14 +119,14 @@ class OperationsGatewayGRPCClient(GRPCClient):
         """
         return self.stub.MakeTransferOperation(request)
 
-    def get_operations_summary_api(self, request: GetOperationsSummaryRequest) -> GetOperationsSummaryResponse:
+    def get_operations_summary_api(self, query: GetOperationsSummaryRequest) -> GetOperationsSummaryResponse:
         """
         Низкоуровневый вызов метода GetOperationsSummary через gRPC.
 
         :param request: gRPC-запрос с данными для получения сводки по операциям.
         :return: Ответ от сервиса с информацией о сводке по операциям.
         """
-        return self.stub.GetOperationsSummary(request)
+        return self.stub.GetOperationsSummary(query)
 
     def make_bill_payment_operation_api(self, request: MakeBillPaymentOperationRequest) -> MakeBillPaymentOperationResponse:
         """

@@ -31,7 +31,7 @@ class OperationsGatewayHTTPClient(HTTPClient):
     Клиент для взаимодействия с /api/v1/operations сервиса http-gateway.
     """
 
-    def get_operations_api(self, account_id: str) -> Response:
+    def get_operations_api(self, query: GetOperationsQuerySchema) -> Response:
         """
         Получить операции по номеру счета.
 
@@ -40,7 +40,7 @@ class OperationsGatewayHTTPClient(HTTPClient):
         """
         return self.get(
             "/api/v1/operations",
-            params=GetOperationsQuerySchema(account_id=account_id),
+            params=QueryParams(**query.model_dump(by_alias=True)),
             extensions=HTTPClientExtensions(route="/api/v1/operations")
             )
 
@@ -48,7 +48,7 @@ class OperationsGatewayHTTPClient(HTTPClient):
         """
         Получить статистику по операциям для определенного счета.
 
-        :param accountId: Идентификатор счета.
+        :param query: Модель с параметром accountId.
         :return: Ответ от сервера (объект httpx.Response).
         """
         return self.get(
@@ -148,7 +148,8 @@ class OperationsGatewayHTTPClient(HTTPClient):
         :param account_id: Идентификатор счета.
         :return: Список операций.
         """
-        response = self.get_operations_api(account_id)
+        query = GetOperationsQuerySchema(account_id=account_id)
+        response = self.get_operations_api(query)
         return GetOperationsResponseSchema.model_validate_json(response.text)
 
     def get_operations_summary(self, account_id: str) -> GetOperationsSummaryResponseSchema:
@@ -158,7 +159,8 @@ class OperationsGatewayHTTPClient(HTTPClient):
         :param account_id: Идентификатор счета.
         :return: Сводка по операциям.
         """
-        response = self.get_operations_summary_api(account_id)
+        query = GetOperationsSummaryQuerySchema(account_id=account_id)
+        response = self.get_operations_summary_api(query)
         return GetOperationsSummaryResponseSchema.model_validate_json(response.text)
 
     def get_operation(self, operation_id: str) -> GetOperationResponseSchema:
