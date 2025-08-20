@@ -204,7 +204,7 @@ class OperationsGatewayHTTPClient(HTTPClient):
         """
 
         response = self.make_top_up_operation_api(request)
-        print('Make top up operation response:', response.status_code, response.text)
+        #print('Make top up operation response:', response.status_code, response.text)
         return MakeTopUpOperationResponseSchema.model_validate_json(response.text)
 
     def make_cashback_operation(self, request: MakeCashbackOperationRequestSchema) -> MakeCashbackOperationResponseSchema:

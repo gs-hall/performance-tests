@@ -2,10 +2,12 @@ from locust import task
 
 from clients.http.gateway.accounts.schema import OpenDebitCardAccountResponseSchema
 from clients.http.gateway.locust import GatewayHTTPSequentialTaskSet
-from clients.http.gateway.operations.schema import MakeTopUpOperationResponseSchema
 from clients.http.gateway.users.schema import CreateUserResponseSchema
 from tools.locust.user import LocustBaseUser
-
+from clients.http.gateway.operations.schema import (
+    MakeTopUpOperationRequestSchema,
+    MakeTopUpOperationResponseSchema
+)
 
 # Класс сценария: описывает последовательный флоу нового пользователя
 class MakeTopUpOperationSequentialTaskSet(GatewayHTTPSequentialTaskSet):
@@ -36,10 +38,14 @@ class MakeTopUpOperationSequentialTaskSet(GatewayHTTPSequentialTaskSet):
         if not self.open_open_debit_card_account_response:
             return
 
-        # Выполняем операцию пополнения счёта
-        self.make_top_up_operation_response = self.operations_gateway_client.make_top_up_operation(
+        request: MakeTopUpOperationRequestSchema = MakeTopUpOperationRequestSchema(
             card_id=self.open_open_debit_card_account_response.account.cards[0].id,
             account_id=self.open_open_debit_card_account_response.account.id
+        )
+
+        # Выполняем операцию пополнения счёта
+        self.make_top_up_operation_response = self.operations_gateway_client.make_top_up_operation(
+            request
         )
 
     @task
