@@ -67,7 +67,7 @@ class OperationsGatewayHTTPClient(HTTPClient):
         """
         return self.get(
             f"{APIRoutes.OPERATIONS}/operation-receipt/{operation_id}",
-            extensions=HTTPClientExtensions(route=f"{APIRoutes.OPERATIONS}/operation-receipt/{operation_id}")
+            extensions=HTTPClientExtensions(route=f"{APIRoutes.OPERATIONS}/operation-receipt/{{operation_id}}")
             )
 
     def get_operation_api(self, operation_id: str) -> Response:
@@ -79,7 +79,7 @@ class OperationsGatewayHTTPClient(HTTPClient):
         """
         return self.get(
             f"{APIRoutes.OPERATIONS}/{operation_id}",
-            extensions=HTTPClientExtensions(route=f"{APIRoutes.OPERATIONS}/{operation_id}")
+            extensions=HTTPClientExtensions(route=f"{APIRoutes.OPERATIONS}/{{operation_id}}")
             )
 
     def make_fee_operation_api(self, request: MakeFeeOperationRequestSchema) -> Response:
