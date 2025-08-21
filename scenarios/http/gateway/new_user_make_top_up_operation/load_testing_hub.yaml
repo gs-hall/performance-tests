@@ -3,7 +3,7 @@ service:
   id: 1               # ID сервиса http gateway
 scenario:
   id: 4              # ID сценария в Load Testing Hub
-  name: "new user get accounts"
+  name: "new user make top up operation"
   file: "./scenarios/http/gateway/new_user_make_top_up_operation/v1.0.conf"
   version: "v1.0"
   number_of_users: 100
