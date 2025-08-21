@@ -1,0 +1,69 @@
+Count,Message,Traceback,Nodes
+1,Server disconnected without sending a response.,"  File ""/Users/e.ivantsov/code/python/performance-tests/venv/lib/python3.13/site-packages/locust/user/task.py"", line 351, in run
+    self.execute_next_task()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File ""/Users/e.ivantsov/code/python/performance-tests/venv/lib/python3.13/site-packages/locust/user/task.py"", line 384, in execute_next_task
+    self.execute_task(self._task_queue.popleft())
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/Users/e.ivantsov/code/python/performance-tests/venv/lib/python3.13/site-packages/locust/user/task.py"", line 396, in execute_task
+    task(self)
+    ~~~~^^^^^^
+  File ""/Users/e.ivantsov/code/python/performance-tests/scenarios/http/gateway/new_user_issue_physical_card/scenario.py"", line 38, in open_debit_card_account
+    self.open_debit_card_account_response = self.accounts_gateway_client.open_debit_card_account(
+                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        user_id=self.create_user_response.user.id
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File ""/Users/e.ivantsov/code/python/performance-tests/clients/http/gateway/accounts/client.py"", line 104, in open_debit_card_account
+    response = self.open_debit_card_account_api(request)
+  File ""/Users/e.ivantsov/code/python/performance-tests/clients/http/gateway/accounts/client.py"", line 70, in open_debit_card_account_api
+    return self.post(
+           ~~~~~~~~~^
+        f""{APIRoutes.ACCOUNTS}/open-debit-card-account"",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        json=request.model_dump(by_alias=True)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File ""/Users/e.ivantsov/code/python/performance-tests/clients/http/client.py"", line 48, in post
+    return self.client.post(url=url, json=json, extensions=extensions)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/Users/e.ivantsov/code/python/performance-tests/venv/lib/python3.13/site-packages/httpx/_client.py"", line 1144, in post
+    return self.request(
+           ~~~~~~~~~~~~^
+        ""POST"",
+        ^^^^^^^
+    ...<11 lines>...
+        extensions=extensions,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File ""/Users/e.ivantsov/code/python/performance-tests/venv/lib/python3.13/site-packages/httpx/_client.py"", line 825, in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/Users/e.ivantsov/code/python/performance-tests/venv/lib/python3.13/site-packages/httpx/_client.py"", line 914, in send
+    response = self._send_handling_auth(
+        request,
+    ...<2 lines>...
+        history=[],
+    )
+  File ""/Users/e.ivantsov/code/python/performance-tests/venv/lib/python3.13/site-packages/httpx/_client.py"", line 942, in _send_handling_auth
+    response = self._send_handling_redirects(
+        request,
+        follow_redirects=follow_redirects,
+        history=history,
+    )
+  File ""/Users/e.ivantsov/code/python/performance-tests/venv/lib/python3.13/site-packages/httpx/_client.py"", line 979, in _send_handling_redirects
+    response = self._send_single_request(request)
+  File ""/Users/e.ivantsov/code/python/performance-tests/venv/lib/python3.13/site-packages/httpx/_client.py"", line 1014, in _send_single_request
+    response = transport.handle_request(request)
+  File ""/Users/e.ivantsov/code/python/performance-tests/venv/lib/python3.13/site-packages/httpx/_transports/default.py"", line 249, in handle_request
+    with map_httpcore_exceptions():
+         ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File ""/opt/homebrew/Cellar/python@3.13/3.13.3/Frameworks/Python.framework/Versions/3.13/lib/python3.13/contextlib.py"", line 162, in __exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File ""/Users/e.ivantsov/code/python/performance-tests/venv/lib/python3.13/site-packages/httpx/_transports/default.py"", line 118, in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+",local

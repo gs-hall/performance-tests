@@ -3,7 +3,7 @@ service:
   id: 1               # ID сервиса http gateway
 scenario:
   id: 3              # ID сценария в Load Testing Hub
-  name: "new user get accounts"
+  name: "new user issue physical card"
   file: "./scenarios/http/gateway/new_user_issue_physical_card/v1.0.conf"
   version: "v1.0"
   number_of_users: 100

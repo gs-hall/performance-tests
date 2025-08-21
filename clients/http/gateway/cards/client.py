@@ -31,7 +31,7 @@ class CardsGatewayHTTPClient(HTTPClient):
         :param request: Словарь с данными нового пользователя и номером счета.
         :return: Ответ от сервера (объект httpx.Response).
         """
-        return self.post("{APIRoutes.CARDS}/issue-physical-card", json=request.model_dump(by_alias=True))
+        return self.post(f"{APIRoutes.CARDS}/issue-physical-card", json=request.model_dump(by_alias=True))
 
     # Добавили новый метод
     def issue_virtual_card(self, user_id: str, account_id: str) -> IssueVirtualCardResponseSchema:
