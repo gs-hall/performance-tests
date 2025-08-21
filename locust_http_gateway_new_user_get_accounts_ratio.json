@@ -1,0 +1,44 @@
+{
+    "per_class": {
+        "GetDocumentsScenarioUser": {
+            "ratio": 1.0,
+            "tasks": {
+                "GetDocumentsSequentialTaskSet": {
+                    "ratio": 1.0,
+                    "tasks": {
+                        "create_user": {
+                            "ratio": 0.3333333333333333
+                        },
+                        "open_savings_account": {
+                            "ratio": 0.3333333333333333
+                        },
+                        "get_documents": {
+                            "ratio": 0.3333333333333333
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "total": {
+        "GetDocumentsScenarioUser": {
+            "ratio": 1.0,
+            "tasks": {
+                "GetDocumentsSequentialTaskSet": {
+                    "ratio": 1.0,
+                    "tasks": {
+                        "create_user": {
+                            "ratio": 0.3333333333333333
+                        },
+                        "open_savings_account": {
+                            "ratio": 0.3333333333333333
+                        },
+                        "get_documents": {
+                            "ratio": 0.3333333333333333
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
