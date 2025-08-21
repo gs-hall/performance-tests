@@ -3,17 +3,17 @@
         "GetDocumentsScenarioUser": {
             "ratio": 1.0,
             "tasks": {
-                "GetAccountsTaskSet": {
+                "GetDocumentsSequentialTaskSet": {
                     "ratio": 1.0,
                     "tasks": {
                         "create_user": {
-                            "ratio": 0.2
+                            "ratio": 0.3333333333333333
                         },
-                        "open_deposit_account": {
-                            "ratio": 0.2
+                        "open_savings_account": {
+                            "ratio": 0.3333333333333333
                         },
-                        "get_accounts": {
-                            "ratio": 0.6
+                        "get_documents": {
+                            "ratio": 0.3333333333333333
                         }
                     }
                 }
@@ -24,17 +24,17 @@
         "GetDocumentsScenarioUser": {
             "ratio": 1.0,
             "tasks": {
-                "GetAccountsTaskSet": {
+                "GetDocumentsSequentialTaskSet": {
                     "ratio": 1.0,
                     "tasks": {
                         "create_user": {
-                            "ratio": 0.2
+                            "ratio": 0.3333333333333333
                         },
-                        "open_deposit_account": {
-                            "ratio": 0.2
+                        "open_savings_account": {
+                            "ratio": 0.3333333333333333
                         },
-                        "get_accounts": {
-                            "ratio": 0.6
+                        "get_documents": {
+                            "ratio": 0.3333333333333333
                         }
                     }
                 }
