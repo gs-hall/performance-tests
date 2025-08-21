@@ -1,0 +1,44 @@
+{
+    "per_class": {
+        "GetDocumentsScenarioUser": {
+            "ratio": 1.0,
+            "tasks": {
+                "GetAccountsTaskSet": {
+                    "ratio": 1.0,
+                    "tasks": {
+                        "create_user": {
+                            "ratio": 0.2
+                        },
+                        "open_deposit_account": {
+                            "ratio": 0.2
+                        },
+                        "get_documents": {
+                            "ratio": 0.6
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "total": {
+        "GetDocumentsScenarioUser": {
+            "ratio": 1.0,
+            "tasks": {
+                "GetAccountsTaskSet": {
+                    "ratio": 1.0,
+                    "tasks": {
+                        "create_user": {
+                            "ratio": 0.2
+                        },
+                        "open_deposit_account": {
+                            "ratio": 0.2
+                        },
+                        "get_documents": {
+                            "ratio": 0.6
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
