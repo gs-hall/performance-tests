@@ -1,0 +1,44 @@
+{
+    "per_class": {
+        "IssuePhysicalCardScenarioUser": {
+            "ratio": 1.0,
+            "tasks": {
+                "IssuePhysicalCardSequentialTaskSet": {
+                    "ratio": 1.0,
+                    "tasks": {
+                        "create_user": {
+                            "ratio": 0.3333333333333333
+                        },
+                        "open_debit_card_account": {
+                            "ratio": 0.3333333333333333
+                        },
+                        "issue_physical_card": {
+                            "ratio": 0.3333333333333333
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "total": {
+        "IssuePhysicalCardScenarioUser": {
+            "ratio": 1.0,
+            "tasks": {
+                "IssuePhysicalCardSequentialTaskSet": {
+                    "ratio": 1.0,
+                    "tasks": {
+                        "create_user": {
+                            "ratio": 0.3333333333333333
+                        },
+                        "open_debit_card_account": {
+                            "ratio": 0.3333333333333333
+                        },
+                        "issue_physical_card": {
+                            "ratio": 0.3333333333333333
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
